@@ -12,5 +12,6 @@ RUN pip install --upgrade pip setuptools \
 
 
 # Patch pywps - https://github.com/geopython/pywps/pull/311
-#RUN cd /srv/ncwps/src/src/pywps/ \
-#    && patch -p1 < /srv/ncwps/src/pullrequest-311.patch
+COPY pullrequest-311.patch .
+RUN cd /srv/ncwps/src/src/pywps/ \
+    && patch -p1 < /srv/ncwps/src/pullrequest-311.patch

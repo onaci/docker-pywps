@@ -1,0 +1,34 @@
+commit df5b4b696e5615a01e886a98f08b0ddde75d4d23
+Author: Sven Dowideit <sven.dowideit@csiro.au>
+Date:   Tue Jan 16 12:53:07 2018 +1100
+
+    remove the unsafe os.chdir(), and make sure we clean up the workdir we created in execute()
+    
+    Signed-off-by: Sven Dowideit <sven.dowideit@csiro.au>
+
+diff --git a/pywps/app/Service.py b/pywps/app/Service.py
+index 488d324..8522562 100644
+--- a/pywps/app/Service.py
++++ b/pywps/app/Service.py
+@@ -301,12 +301,7 @@ class Service(object):
+         except KeyError:
+             raise InvalidParameterValue("Unknown process '%r'" % identifier, 'Identifier')
+ 
+-        olddir = os.path.abspath(os.curdir)
+-        try:
+-            os.chdir(process.workdir)
+-            response = self._parse_and_execute(process, wps_request, uuid)
++        response = self._parse_and_execute(process, wps_request, uuid)
+-        finally:
+-            os.chdir(olddir)
+ 
+         return response
+ 
+@@ -381,7 +379,6 @@ class Service(object):
+                 for proc_outpt in process.outputs:
+                     if outpt == proc_outpt.identifier:
+                         resp = Response(proc_outpt.data)
+-                        resp.call_on_close(process.clean)
+                         return resp
+ 
+             # if the specified identifier was not found raise error
