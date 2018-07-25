@@ -1,0 +1,38 @@
+commit b053a1f15e7e7214e96c5c45cb201890954c948d
+Author: Dowideit, Sven (O&A, St. Lucia) <Sven.Dowideit@csiro.au>
+Date:   Wed Jul 25 11:32:20 2018 +1000
+
+    Simplify ENV var config customisation for container use
+    
+    Signed-off-by: Dowideit, Sven (O&A, St. Lucia) <Sven.Dowideit@csiro.au>
+
+diff --git a/docs/configuration.rst b/docs/configuration.rst
+index a7b518a..6327202 100644
+--- a/docs/configuration.rst
++++ b/docs/configuration.rst
+@@ -4,7 +4,8 @@ Configuration
+ =============
+ 
+ PyWPS is configured using a configuration file. The file uses the
+-`ConfigParser <https://wiki.python.org/moin/ConfigParserExamples>`_ format.
++`ConfigParser <https://wiki.python.org/moin/ConfigParserExamples>`_ format, with
++interpolation initialised using `os.osenviron`.
+ 
+ .. versionadded:: 4.0.0
+ .. warning:: Compatibility with PyWPS 3.x: major changes have been made
+diff --git a/pywps/configuration.py b/pywps/configuration.py
+index 04b13fd..0100db2 100755
+--- a/pywps/configuration.py
++++ b/pywps/configuration.py
+@@ -69,9 +69,9 @@ def load_configuration(cfgfiles=None):
+ 
+     LOGGER.info('loading configuration')
+     if PY2:
+-        CONFIG = ConfigParser.SafeConfigParser()
++        CONFIG = ConfigParser.SafeConfigParser(os.environ)
+     else:
+-        CONFIG = configparser.ConfigParser()
++        CONFIG = configparser.ConfigParser(os.environ)
+ 
+     LOGGER.debug('setting default values')
+     CONFIG.add_section('server')

@@ -15,3 +15,8 @@ RUN pip install --upgrade pip setuptools \
 COPY pullrequest-311.patch .
 RUN cd /srv/ncwps/src/src/pywps/ \
     && patch -p1 < /srv/ncwps/src/pullrequest-311.patch
+
+# Patch pywps to add os-environ interpolation - https://github.com/geopython/pywps/pull/365
+COPY pullrequest-365.patch .
+RUN cd /srv/ncwps/src/src/pywps/ \
+    && patch -p1 < /srv/ncwps/src/pullrequest-365.patch
