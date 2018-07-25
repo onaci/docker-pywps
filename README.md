@@ -1,6 +1,8 @@
 # pywps
 Dockerized pywps
 
+see https://hub.docker.com/r/onaci/pywps-base/
+
 use this base image like:
 
 ```
