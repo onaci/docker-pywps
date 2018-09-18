@@ -1,13 +1,14 @@
 FROM debian:jessie
 
 RUN apt-get update \
-	&& apt-get install -yq git vim-tiny \
-	python-pip python-virtualenv python-dev \
-    libxml2-dev libxslt1-dev zlib1g-dev         # for lxml
+    && apt-get install -yq git vim-tiny \
+    python-pip python-virtualenv python-dev \
+    libxml2-dev libxslt1-dev zlib1g-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /srv/ncwps/src
 RUN pip install --upgrade pip setuptools \
-	&& pip install gunicorn \
+    && pip install gunicorn \
     && pip install -e git+https://github.com/geopython/pywps.git@4.0.0#egg=pywps
 
 
